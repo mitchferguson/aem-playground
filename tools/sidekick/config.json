@@ -8,5 +8,6 @@
       "url": "/tools/sidekick/read-time.html",
       "includePaths": ["**/*.html", "**/"]
     }
+    
   ]
 }
