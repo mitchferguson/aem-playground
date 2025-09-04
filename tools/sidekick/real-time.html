@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>Read Time</title>
+  <script>
+    (function init() {
+      const sk = window.top?.hlx?.sidekick;
+      if (!sk?.add) return setTimeout(init, 150);
+
+      const WPM = 240;
+
+      async function fetchPlain(url) {
+        const u = new URL(url);
+        u.search = '';
+        if (!u.pathname.endsWith('.plain.html')) {
+          u.pathname = u.pathname.replace(/\.html$/, '') + '.plain.html';
+        }
+        const res = await fetch(u.toString(), { credentials: 'include' });
+        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+        return res.text();
+      }
+
+      function wordCount(plainHtml) {
+        const text = plainHtml
+          .replace(/<style[\s\S]*?<\/style>/gi,'')
+          .replace(/<script[\s\S]*?<\/script>/gi,'')
+          .replace(/<[^>]+>/g,' ')
+          .replace(/&[a-z]+;|&#\d+;/gi,' ')
+          .replace(/\s+/g,' ')
+          .trim();
+        return text ? text.split(' ').length : 0;
+      }
+
+      function toMinutes(words) {
+        return Math.max(1, Math.ceil(words / WPM)) + ' min';
+      }
+
+      async function upsertMetadata(key, value) {
+        if (sk.metadata?.set) { await sk.metadata.set(key, value); return; }
+        const doc = window.top.document;
+        const main = doc.querySelector('main');
+        if (!main) throw new Error('No <main> found');
+        const tables = [...main.querySelectorAll('table')];
+        let metaTable = tables.find((t) => /metadata/i.test((t.querySelector('th,td')?.textContent||'').trim()));
+        if (!metaTable) {
+          const section = doc.createElement('div');
+          const table = doc.createElement('table');
+          const thead = doc.createElement('thead');
+          const hrow = doc.createElement('tr');
+          const hcell = doc.createElement('th'); hcell.textContent = 'Metadata';
+          hrow.appendChild(hcell); thead.appendChild(hrow);
+          const tbody = doc.createElement('tbody');
+          const row = doc.createElement('tr');
+          const k = doc.createElement('td'); k.textContent = key;
+          const v = doc.createElement('td'); v.textContent = value;
+          row.append(k, v); tbody.appendChild(row);
+          table.append(thead, tbody); section.appendChild(table); main.prepend(section);
+          return;
+        }
+        const rows = [...metaTable.querySelectorAll('tbody tr')];
+        const existing = rows.find((tr) => tr.querySelector('td')?.textContent.trim().toLowerCase() === key);
+        if (existing) {
+          const v = existing.querySelectorAll('td')[1]; if (v) v.textContent = value;
+        } else {
+          const tr = doc.createElement('tr');
+          const k = doc.createElement('td'); k.textContent = key;
+          const v = doc.createElement('td'); v.textContent = value;
+          tr.append(k, v); metaTable.querySelector('tbody')?.appendChild(tr);
+        }
+      }
+
+      sk.add({
+        id: 'read-time',
+        button: { text: 'Calc Read Time' },
+        condition: () => true,
+        action: async () => {
+          try {
+            sk.notify('Calculating…');
+            const href = window.top.location.href.replace(/\?edit=.*$/, '');
+            const plain = await fetchPlain(href);
+            const words = wordCount(plain);
+            const value = toMinutes(words);
+            await upsertMetadata('read-time', value);
+            sk.notify(`read-time: ${value} (${words} words @ ${WPM} wpm)`);
+          } catch (e) {
+            console.error(e);
+            sk.notify(e.message || 'Read time failed', 6000);
+          }
+        },
+      });
+    })();
+  </script>
+</html>
