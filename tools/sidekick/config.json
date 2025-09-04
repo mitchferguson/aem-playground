@@ -1,0 +1,12 @@
+{
+  "project": "aem-playground",
+  "plugins": [
+    {
+      "id": "read-time",
+      "title": "Read Time",
+      "environments": ["edit", "preview", "live", "prod"],
+      "url": "/tools/sidekick/read-time.html",
+      "includePaths": ["**/*.html", "**/"]
+    }
+  ]
+}
