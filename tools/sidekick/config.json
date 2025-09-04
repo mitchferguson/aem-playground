@@ -2,12 +2,17 @@
   "project": "aem-playground",
   "plugins": [
     {
+      "id": "hello",
+      "title": "Hello",
+      "url": "/tools/sidekick/hello.html",
+      "include_paths": ["**"],
+      "isPopover": true
+    },
+    {
       "id": "read-time",
       "title": "Read Time",
-      "environments": ["edit", "preview", "live", "prod"],
       "url": "/tools/sidekick/read-time.html",
-      "includePaths": ["**/*.html", "**/"]
-    },
-    { "id": "hello", "title": "Hello", "url": "/tools/sidekick/hello.html", "includePaths": ["**"] }
+      "include_paths": ["**"]
+    }
   ]
 }
