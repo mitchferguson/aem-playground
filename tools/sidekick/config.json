@@ -7,6 +7,7 @@
       "environments": ["edit", "preview", "live", "prod"],
       "url": "/tools/sidekick/read-time.html",
       "includePaths": ["**/*.html", "**/"]
-    }
+    },
+    { "id": "hello", "title": "Hello", "url": "/tools/sidekick/hello.html", "includePaths": ["**"] }
   ]
 }

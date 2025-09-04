@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8">
+<script>
+(function init(){
+  const sk = window.top?.hlx?.sidekick;
+  if (!sk?.add) return setTimeout(init, 200);
+  sk.add({
+    id: 'hello',
+    button: { text: 'Hello' },
+    action: () => sk.notify('Hello from Sidekick!')
+  });
+})();
+</script>
