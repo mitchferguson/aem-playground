@@ -1,11 +1,6 @@
 [
   {
     "id": "section",
-    "components": [
-      "button",
-      "columns",
-      "text",
-      "image"
-    ]
+    "components": ["button", "columns", "text", "image"]
   }
 ]
