@@ -1,0 +1,28 @@
+.button a {
+  display: inline-block;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button[data-variant="primary"] a {
+  background: #007aff;
+  color: #fff;
+  padding: 8px 16px;
+}
+
+.button[data-variant="secondary"] a {
+  background: #e5e5e5;
+  color: #333;
+  padding: 8px 16px;
+}
+
+.button[data-variant="link"] a {
+  background: transparent;
+  color: #007aff;
+  padding: 0;
+}
+
+.button[data-size="sm"] a { font-size: 12px; }
+.button[data-size="md"] a { font-size: 14px; }
+.button[data-size="lg"] a { font-size: 18px; }

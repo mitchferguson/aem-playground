@@ -1,0 +1,16 @@
+{
+  "title": "Button block schema",
+  "type": "object",
+  "properties": {
+    "variant": {
+      "enum": ["primary", "secondary", "link"],
+      "default": "primary"
+    },
+    "size": {
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    }
+  },
+  "required": ["variant", "size"],
+  "additionalProperties": false
+}
