@@ -1,0 +1,24 @@
+[
+  {
+    "id": "button",
+    "fields": [
+      { "component": "text",   "name": "label",   "label": "Label", "valueType": "string", "value": "Click me" },
+      { "component": "text",   "name": "href",    "label": "Link",  "valueType": "string", "value": "/" },
+
+      { "component": "select", "name": "variant", "label": "Variant", "valueType": "string", "value": "primary",
+        "options": [
+          { "name": "Primary",   "value": "primary" },
+          { "name": "Secondary", "value": "secondary" },
+          { "name": "Link",      "value": "link" }
+        ]
+      },
+      { "component": "select", "name": "size", "label": "Size", "valueType": "string", "value": "md",
+        "options": [
+          { "name": "Small",  "value": "sm" },
+          { "name": "Medium", "value": "md" },
+          { "name": "Large",  "value": "lg" }
+        ]
+      }
+    ]
+  }
+]
